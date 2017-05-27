@@ -1,3 +1,5 @@
+
+
 var state = { preload: preload, create: create, update: update }
 var game = new Phaser.Game(256, 256, Phaser.AUTO, '', state);
 
