@@ -22,7 +22,19 @@ class Obstacle extends Entity{
 
 class BrickWall extends Obstacle{
   constructor(x,y){
-    super("brickWall",x,y)
+    super("obsWall",x,y)
+  }
+}
+
+class SteelWall extends Obstacle{
+  constructor(x,y){
+    super("obsSteel",x,y)
+  }
+}
+
+class Water extends Obstacle{
+  constructor(x,y){
+    super("obsWater",x,y)
   }
 }
 
@@ -68,7 +80,9 @@ class PlayerEntity extends Tank {
 
 function preload() {
   game.load.image('player', 'assets/images/player/BigTank1.png');
-  game.load.image('brickWall', 'assets/images/Elements/Bricks.png');
+  game.load.image('obsWall', 'assets/images/Elements/Bricks.png');
+  game.load.image('obsSteel', 'assets/images/Elements/Wall.png');
+  game.load.image('obsWater', 'assets/images/Elements/Water.png');
 }
 
 function create() {
@@ -81,9 +95,18 @@ function create() {
       const slot = currLvl[x][y]
       if(!slot) continue;
 
+      const posX = x * 16
+      const posY = y * 16
+
       switch(slot){
         case 'B':
-          test = new BrickWall(x * 16,y * 16);
+          test = new BrickWall(posX,posY);
+          break;
+        case 'W':
+          test = new SteelWall(posX,posY);
+          break;
+        case 'S':
+          test = new Water(posX,posY);
           break;
       }
     }
