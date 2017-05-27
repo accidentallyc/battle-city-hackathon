@@ -3,7 +3,6 @@
 var state = { preload: preload, create: create, update: update }
 var game = new Phaser.Game(256, 256, Phaser.AUTO, '', state);
 
-
 class Entity {
   constructor(sprite){
     this.sprite = sprite
@@ -13,7 +12,7 @@ class Entity {
 
 class Tank extends Entity {
   constructor(){
-    const sprite =  game.add.sprite(50, 50, 'player')
+    const sprite =  game.add.sprite(8, 8, 'player')
     sprite.anchor.x = 0.5
     sprite.anchor.y = 0.5
     super(sprite)
