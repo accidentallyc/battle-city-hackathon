@@ -1,0 +1,25 @@
+{
+  "name": "battle-city-hackathon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/accidentallyc/battle-city-hackathon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/accidentallyc/battle-city-hackathon/issues"
+  },
+  "homepage": "https://github.com/accidentallyc/battle-city-hackathon#readme"
+}
