@@ -14,22 +14,10 @@ LEVELS["1"][5][5] = 'B'
 LEVELS["1"][5][6] = 'W'
 LEVELS["1"][5][7] = 'S'
 LEVELS["1"][8][2] = 'B'
-
-
-var state = { preload: preload, create: create, update: update }
-var game = new Phaser.Game(256, 256, Phaser.AUTO, '', state);
-
-var obstacleGroup = null;
-
-class Entity {
-  constructor(spriteName,x,y){
+function Entity(spriteName,x,y){
     const sprite =  game.add.sprite(x, y, spriteName)
     sprite.anchor.x = 0.5
-    sprite.anchor.y = 0.5
-    // sprite.body.collideWorldBounds = true;
-    // sprite.body.checkCollision.up = false;
-    // sprite.body.checkCollision.down = false;
-    
+    sprite.anchor.y = 0.5  
 
     game.physics.enable(sprite, Phaser.Physics.ARCADE);
     sprite.body.collideWorldBounds = true;
@@ -39,43 +27,11 @@ class Entity {
     sprite.body.checkCollision.right = true;
     
     this.sprite = sprite
-  }
 }
 
-class Obstacle extends Entity{
-  constructor(spriteName,x,y){
-    super(spriteName,x,y)
-    this.sprite.body.immovable = true
-  }
-}
-
-class BrickWall extends Obstacle{
-  constructor(x,y){
-    super("obsWall",x,y)
-  }
-}
-
-class SteelWall extends Obstacle{
-  constructor(x,y){
-    super("obsSteel",x,y)
-  }
-}
-
-class Water extends Obstacle{
-  constructor(x,y){
-    super("obsWater",x,y)
-  }
-}
-
-class Tank extends Entity {
-  constructor(x,y){
-    super("player",x,y)
-  } 
-}
-
-class PlayerEntity extends Tank {
+class PlayerEntity {
   constructor(){
-    super(8,8)
+    Tank.call(this,8,8)
     this.ms = 100;
     this.keys = {
       p1 : {
@@ -116,6 +72,39 @@ class PlayerEntity extends Tank {
   }
 
 }
+function Tank(x,y){
+  Entity.call(this, "player",x,y)
+} 
+
+function Obstacle(spriteName,x,y){
+  Entity.call(this,spriteName,x,y)
+  this.sprite.body.immovable = true
+}
+function BrickWall(x,y){
+  Obstacle.call(this,"obsWall",x,y)
+}
+BrickWall.id = 'B'
+
+
+  function SteelWall(x,y){
+    Obstacle.call(this,"obsSteel",x,y)
+  }
+
+
+SteelWall.id = 'S'
+function Water(x,y){
+  Obstacle.call(this,"obsWater",x,y)
+}
+
+
+Water.id ='W'
+
+
+var state = { preload: preload, create: create, update: update }
+var game = new Phaser.Game(256, 256, Phaser.AUTO, '', state);
+
+var obstacleGroup = null;
+
 
 function preload() {
   game.load.image('player', 'assets/images/player/BigTank1.png');

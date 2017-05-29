@@ -6,6 +6,7 @@ module.exports = function(grunt) {
         src: [
           'assets/game.levels.js',
           'assets/levels/*.js',
+          'assets/class/**/*.js',
           'assets/main.js',
         ],
         dest: 'build.js',
