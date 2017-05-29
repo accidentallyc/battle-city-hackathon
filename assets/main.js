@@ -60,6 +60,7 @@ class Tank extends Entity {
 class PlayerEntity extends Tank {
   constructor(){
     super(8,8)
+    this.ms = 100;
     this.keys = {
       p1 : {
         'up': game.input.keyboard.addKey(Phaser.Keyboard.W),
@@ -71,26 +72,31 @@ class PlayerEntity extends Tank {
   }
 
   moveUp(){
-    // this.sprite.y-= 1
-    this.sprite.body.y-= 1
+    this.sprite.body.velocity.x = 0
+    this.sprite.body.velocity.y = -this.ms
     this.sprite.angle =0
   }
   moveDown(){
-    // this.sprite.y+= 1  
-    this.sprite.body.y+= 1  
+    this.sprite.body.velocity.x = 0
+    this.sprite.body.velocity.y = this.ms
     this.sprite.angle =180
   }
 
   moveLeft(){
-    // this.sprite.x-= 1
-    this.sprite.body.x-= 1
+    this.sprite.body.velocity.y = 0
+    this.sprite.body.velocity.x = -this.ms
     this.sprite.angle = 270
   }
 
   moveRight(){
-    // this.sprite.x+= 1
-    this.sprite.body.x+= 1
+    this.sprite.body.velocity.y = 0
+    this.sprite.body.velocity.x = this.ms
     this.sprite.angle = 90
+  }
+
+  moveStop(){
+    this.sprite.body.velocity.y = 0
+    this.sprite.body.velocity.x = 0
   }
 
 }
@@ -110,9 +116,7 @@ function create() {
   obstacleGroup = game.add.group();
   obstacleGroup.enableBody = true;
   obstacleGroup.physicsBodyType = Phaser.Physics.ARCADE;
-  // obstacleGroup.x = 0
-  // obstacleGroup.y = 0
-
+  
   for (var x = currLvl.length - 1; x >= 0; x--) {
     for (var y = currLvl[x].length - 1; y >= 0; y--) {
       const slot = currLvl[x][y]
@@ -147,40 +151,17 @@ function update() {
   const isMovingLeft = this.p1.keys.p1.left.isDown;
   const isMovingRight = this.p1.keys.p1.right.isDown;
 
-  let canMoveUp = true
-  let canMoveDown = true
-  let canMoveLeft = true
-  let canMoveRight = true
-
-   game.physics.arcade.collide(
-    this.p1.sprite, obstacleGroup, (a,b)=>{
-      const entAx = Math.ceil(a.position.x / 13)
-      const entBx = Math.ceil(b.position.x / 13)
-      const entAy = Math.ceil(a.position.y / 13)
-      const entBy = Math.ceil(b.position.y / 13)
-
-      if( entAx < entBx ) canMoveRight = false
-      else if( entAx > entBx ) canMoveLeft = false
-      
-      if( entAy < entBy ) canMoveDown = false
-      else if( entAy > entBy ) canMoveUp = false
-
-    }, null, this)
+  game.physics.arcade.collide(this.p1.sprite, obstacleGroup,null, null, this)
 
 
-  if(isMovingUp && canMoveUp) 
+  if(isMovingUp) 
     this.p1.moveUp()
-  else if(isMovingDown && canMoveDown)
+  else if(isMovingDown)
     this.p1.moveDown()
-  else if(isMovingLeft && canMoveLeft)
+  else if(isMovingLeft)
     this.p1.moveLeft()
-  else if(isMovingRight && canMoveRight)
+  else if(isMovingRight)
     this.p1.moveRight()
-
-  // game.physics.arcade.collide(
-  //   this.p1.sprite, 
-  //   obstacle.sprite, function(){
-  //     alert(5)
-  //   });
-
+  else
+    this.p1.moveStop()
 }
